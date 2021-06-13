@@ -1,36 +1,24 @@
-import {
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  MenuItem,
-  InputLabel,
-  Select,
-  Typography,
-} from "@material-ui/core";
 import Box from "@material-ui/core/Box";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControl from "@material-ui/core/FormControl";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import IconButton from "@material-ui/core/IconButton";
-import {
-  useAddToUserSongs,
-  useRemoveSong,
-  useSongListenedStatus,
-  useSongRating,
-} from "./hooks";
-import useStyles from "./styles";
-import { SongListItemProps } from "./types";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import Typography from "@material-ui/core/Typography";
 import EditIcon from "@material-ui/icons/Edit";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import { AlbumListItemProps } from "./types";
+import useStyles from "./styles";
 
-const SongListItem: React.FC<SongListItemProps> = ({
-  song: { id, title, authorName, rate, publicationYear },
-  isUserSong = false,
+const AlbumListItem: React.FC<AlbumListItemProps> = ({
+  song: { id, title, authorName, publicationYear, rate, songs },
+  isUserAlbum,
   ...rest
 }) => {
   const classes = useStyles(rest);
-  const [listened, handleListenedChange] = useSongListenedStatus(false);
-  const [userRating, handleRateSong] = useSongRating(id);
-  const removeSong = useRemoveSong(id);
-  const addToUserSongs = useAddToUserSongs(id);
 
   return (
     <Box className={classes.item} component="li">
@@ -43,7 +31,7 @@ const SongListItem: React.FC<SongListItemProps> = ({
           {authorName} - {publicationYear}
         </Typography>
 
-        {!isUserSong && (
+        {!isUserAlbum && (
           <Typography className={classes.songRating} variant="body1">
             Rating - {rate}
           </Typography>
@@ -51,15 +39,15 @@ const SongListItem: React.FC<SongListItemProps> = ({
       </Box>
 
       <Box className={classes.actions}>
-        {!isUserSong && (
+        {!isUserAlbum && (
           <Box className={classes.ratingWrapper}>
             <FormControl>
               <InputLabel id="rating-select">Rate</InputLabel>
               <Select
                 className={classes.ratingSelect}
                 labelId="rating-select"
-                value={userRating}
-                onChange={handleRateSong}
+                // value={userRating}
+                // onChange={handleRateSong}
                 fullWidth
               >
                 <MenuItem value={1}>1</MenuItem>
@@ -72,35 +60,21 @@ const SongListItem: React.FC<SongListItemProps> = ({
           </Box>
         )}
 
-        {isUserSong && (
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={listened}
-                onChange={handleListenedChange}
-                name="listened"
-                color="primary"
-              />
-            }
-            label="Listened"
-          />
-        )}
-
         <Box>
-          {!isUserSong && (
-            <IconButton onClick={addToUserSongs}>
+          {!isUserAlbum && (
+            <IconButton onClick={undefined}>
               <FavoriteBorderIcon />
             </IconButton>
           )}
 
-          {!isUserSong && (
+          {!isUserAlbum && (
             <IconButton>
               <EditIcon />
             </IconButton>
           )}
 
-          {isUserSong && (
-            <IconButton onClick={removeSong}>
+          {isUserAlbum && (
+            <IconButton onClick={undefined}>
               <FavoriteIcon />
             </IconButton>
           )}
@@ -110,4 +84,4 @@ const SongListItem: React.FC<SongListItemProps> = ({
   );
 };
 
-export default SongListItem;
+export default AlbumListItem;

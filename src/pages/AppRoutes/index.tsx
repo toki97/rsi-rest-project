@@ -1,26 +1,37 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import AppLayout from "../../AppLayout";
+import ProtectedRoute from "../../components/ProtectedRoute";
 import routes from "../../setup/routes";
+import AlbumsPage from "../AlbumsPage";
 import LoginPage from "../LoginPage";
 import SongsPage from "../SongsPage";
+import UserSongsPage from "../UserSongsPage";
 
-const { LOGIN, HOME } = routes;
+const { LOGIN, HOME, ALBUMS, USER_SONGS } = routes;
 
 const AppRoutes = () => {
   return (
-    <AppLayout>
-      <Router>
+    <Router>
+      <AppLayout>
         <Switch>
           <Route exact path={LOGIN}>
             <LoginPage />
           </Route>
 
-          <Route exact path={HOME}>
+          <ProtectedRoute exact path={HOME}>
             <SongsPage />
-          </Route>
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path={USER_SONGS}>
+            <UserSongsPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path={ALBUMS}>
+            <AlbumsPage />
+          </ProtectedRoute>
         </Switch>
-      </Router>
-    </AppLayout>
+      </AppLayout>
+    </Router>
   );
 };
 

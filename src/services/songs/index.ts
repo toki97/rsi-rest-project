@@ -9,6 +9,11 @@ const SongsService = {
 
     return response.data;
   },
+  getUserSongs: async (): Promise<GetSongsResponse> => {
+    const response = await apiClient.get(apiRoutes.USER_SONGS);
+
+    return response.data;
+  },
   changeListenedStatus: async (): Promise<boolean> => {
     const response = await apiClient.put(apiRoutes.RATE_SONG);
 
@@ -19,10 +24,15 @@ const SongsService = {
 
     return response.data;
   },
-  addSong: async (userId: string, song: AddSongVariables): Promise<unknown> => {
-    const response = await apiClient.post(apiRoutes.ADD_SONG(userId), {
+  addSong: async (song: AddSongVariables): Promise<unknown> => {
+    const response = await apiClient.post(apiRoutes.ADD_SONG, {
       ...song,
     });
+
+    return response.data;
+  },
+  addUserSong: async (songId: string): Promise<unknown> => {
+    const response = await apiClient.post(apiRoutes.ADD_USER_SONG(songId));
 
     return response.data;
   },

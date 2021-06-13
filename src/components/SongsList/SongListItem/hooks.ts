@@ -3,6 +3,8 @@ import { useMutation } from "react-query";
 import apiRoutes from "../../../services/apiRoutes";
 import SongsService from "../../../services/songs";
 import {
+  AddUserSongVariables,
+  GetSongsResponseSingleItem,
   RateSongVariables,
   RemoveSongVariables,
 } from "../../../services/songs/types";
@@ -66,3 +68,21 @@ export const useRemoveSong = (songId: string) => {
     });
   }, [removeSong, songId]);
 };
+
+export const useAddToUserSongs = (songId: string) => {
+  const { mutate: addToUserSongs } = useMutation<
+    unknown,
+    unknown,
+    AddUserSongVariables
+  >(apiRoutes.ADD_USER_SONG(songId), (variables) =>
+    SongsService.addUserSong(variables.songId)
+  );
+
+  return useCallback(() => {
+    addToUserSongs({
+      songId,
+    });
+  }, [addToUserSongs, songId]);
+};
+
+export const useUpdateSong = (song: GetSongsResponseSingleItem) => {};

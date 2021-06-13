@@ -1,3 +1,6 @@
 export interface LoginResponse {
-    a: string;
+  id: string;
+  username: string;
+  email: string;
+  password: string;
 }

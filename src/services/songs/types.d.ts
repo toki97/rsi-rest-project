@@ -19,3 +19,7 @@ export interface RateSongVariables {
 export interface RemoveSongVariables {
   songId: string;
 }
+
+export interface AddUserSongVariables {
+  songId: string;
+}

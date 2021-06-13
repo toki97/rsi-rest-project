@@ -1,14 +1,15 @@
 import apiClient from "../../setup/axios";
+import { LoginResponse } from "./types";
 
 const AuthService = {
-  login: async (username: string, password: string) => {
+  login: async (username: string, password: string): Promise<string | null> => {
     try {
-      const response = await apiClient.get("/login", {
+      await apiClient.get<LoginResponse>("/login", {
         withCredentials: false,
         auth: { username, password },
       });
 
-      return response;
+      return btoa(`${username}:${password}`);
     } catch (error) {
       return null;
     }

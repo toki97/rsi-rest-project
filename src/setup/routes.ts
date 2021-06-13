@@ -1,6 +1,9 @@
 const routes = {
-    HOME: '/',
-    LOGIN: '/login'
-}
+  HOME: "/",
+  USER_SONGS: "/user/songs",
+  ALBUMS: "/albums",
+  USER_ALBUMS: "/user/albums",
+  LOGIN: "/login",
+};
 
 export default routes;

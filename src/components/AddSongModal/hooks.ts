@@ -8,8 +8,8 @@ const userId = "adsadasdsa";
 
 export const useAddSong = (close: () => void) => {
   const { mutate: addSong } = useMutation<unknown, unknown, AddSongVariables>(
-    apiRoutes.ADD_SONG(userId),
-    (variables) => SongsService.addSong(userId, variables)
+    apiRoutes.ADD_SONG,
+    (variables) => SongsService.addSong(variables)
   );
 
   const handleAddSong = useCallback(

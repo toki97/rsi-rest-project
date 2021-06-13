@@ -1,19 +1,25 @@
 import { Button, Container, TextField } from "@material-ui/core";
 import { Field, Form, Formik } from "formik";
 import React from "react";
+import { useHistory } from "react-router-dom";
 import FormSpacer from "../../components/FormSpacer";
 import AuthService from "../../services/auth";
+import routes from "../../setup/routes";
 import useStyles from "./styles";
 import { LoginPageFormData } from "./types";
 
 const LoginPage: React.FC = (props) => {
   const classes = useStyles(props);
+  const history = useHistory();
 
   const login = async (formData: LoginPageFormData) => {
     const { username, password } = formData;
-    const result = await AuthService.login(username, password);
+    const token = await AuthService.login(username, password);
 
-    console.log(result);
+    if (token) {
+      localStorage.setItem("token", token);
+      history.push(routes.HOME);
+    }
   };
 
   return (
