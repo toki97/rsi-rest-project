@@ -25,9 +25,11 @@ const AppLayout: React.FC = ({ children, ...rest }) => {
   const { pathname } = useLocation();
   const isSongsPage = matchPath(routes.HOME, {
     path: pathname,
+    exact: true,
   });
   const isAlbumsPage = matchPath(routes.ALBUMS, {
     path: pathname,
+    exact: true,
   });
 
   return (

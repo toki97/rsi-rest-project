@@ -6,6 +6,7 @@ export interface GetSongsResponseSingleItem {
   authorName: string;
   rate: number;
   publicationYear: number;
+  listened: boolean;
   links: Link[];
 }
 

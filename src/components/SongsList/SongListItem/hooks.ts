@@ -15,9 +15,7 @@ export const useSongListenedStatus = (songId: string, listened: boolean) => {
     boolean,
     unknown,
     ChangeListenedStatusVariables
-  >((variables) =>
-    SongsService.changeListenedStatus(variables.songId, variables.status)
-  );
+  >((variables) => SongsService.changeListenedStatus(variables.songId));
   const [isListened, setIsListened] = useState(listened);
 
   const handleListenedChange: React.ChangeEventHandler<HTMLInputElement> =
@@ -26,7 +24,6 @@ export const useSongListenedStatus = (songId: string, listened: boolean) => {
         const { checked } = event.target;
         changeListenedStatus({
           songId,
-          status: checked,
         });
         setIsListened(checked);
       },

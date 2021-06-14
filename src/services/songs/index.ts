@@ -14,29 +14,26 @@ const SongsService = {
 
     return response.data;
   },
-  changeListenedStatus: async (
-    songId: string,
-    status: boolean
-  ): Promise<boolean> => {
-    const response = await apiClient.put(apiRoutes.CHANGE_LISTENED_STATUS, {
-      songId,
-      status,
-    });
+  changeListenedStatus: async (songId: string): Promise<boolean> => {
+    const response = await apiClient.put(
+      apiRoutes.CHANGE_LISTENED_STATUS,
+      undefined,
+      {
+        headers: {
+          songId: songId,
+        },
+      }
+    );
 
     return response.data;
   },
   rateSong: async (songId: string, rate: number): Promise<unknown> => {
-    let dupa: any;
-    try {
-      const { data, request } = await apiClient.put(apiRoutes.RATE_SONG, {
-        songId,
-        rate,
-      });
-      dupa = request;
-      return data;
-    } catch (error) {
-      console.log(dupa);
-    }
+    const { data } = await apiClient.put(apiRoutes.RATE_SONG, {
+      songId,
+      rate,
+    });
+
+    return data;
   },
   addSong: async (song: AddSongVariables): Promise<unknown> => {
     const response = await apiClient.post(apiRoutes.ADD_SONG, {

@@ -24,14 +24,24 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 const SongListItem: React.FC<SongListItemProps> = ({
-  song: { id, title, authorName, rate, publicationYear },
+  song: {
+    id,
+    title,
+    authorName,
+    rate,
+    publicationYear,
+    listened: songListened,
+  },
   refetch,
   isUserSong = false,
   albumView = false,
   ...rest
 }) => {
   const classes = useStyles(rest);
-  const [listened, handleListenedChange] = useSongListenedStatus(id, false);
+  const [listened, handleListenedChange] = useSongListenedStatus(
+    id,
+    songListened
+  );
   const [userRating, handleRateSong] = useSongRating(id);
   const removeSong = useRemoveSong(id, refetch);
   const removeFromUserSongs = useRemoveFromUsersSongs(id, refetch);

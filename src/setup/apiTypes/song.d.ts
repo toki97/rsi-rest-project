@@ -6,5 +6,4 @@ export interface AddSongVariables {
 
 export interface ChangeListenedStatusVariables {
   songId: string;
-  status: boolean;
 }
