@@ -11,6 +11,7 @@ import Box from "@material-ui/core/Box";
 import IconButton from "@material-ui/core/IconButton";
 import {
   useAddToUserSongs,
+  useRemoveFromUsersSongs,
   useRemoveSong,
   useSongListenedStatus,
   useSongRating,
@@ -20,17 +21,20 @@ import { SongListItemProps } from "./types";
 import EditIcon from "@material-ui/icons/Edit";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const SongListItem: React.FC<SongListItemProps> = ({
   song: { id, title, authorName, rate, publicationYear },
+  refetch,
   isUserSong = false,
   albumView = false,
   ...rest
 }) => {
   const classes = useStyles(rest);
-  const [listened, handleListenedChange] = useSongListenedStatus(false);
+  const [listened, handleListenedChange] = useSongListenedStatus(id, false);
   const [userRating, handleRateSong] = useSongRating(id);
-  const removeSong = useRemoveSong(id);
+  const removeSong = useRemoveSong(id, refetch);
+  const removeFromUserSongs = useRemoveFromUsersSongs(id, refetch);
   const addToUserSongs = useAddToUserSongs(id);
 
   return (
@@ -101,8 +105,14 @@ const SongListItem: React.FC<SongListItemProps> = ({
           )}
 
           {isUserSong && (
-            <IconButton onClick={removeSong}>
+            <IconButton onClick={removeFromUserSongs}>
               <FavoriteIcon />
+            </IconButton>
+          )}
+
+          {!isUserSong && (
+            <IconButton onClick={removeSong}>
+              <DeleteIcon />
             </IconButton>
           )}
         </Box>

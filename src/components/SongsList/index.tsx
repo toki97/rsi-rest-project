@@ -9,6 +9,7 @@ const SongsList: React.FC<SongsListProps> = ({
   songs,
   areUsersSongs = false,
   albumView = false,
+  refetch,
   ...rest
 }) => {
   const classes = useStyles(rest);
@@ -24,6 +25,7 @@ const SongsList: React.FC<SongsListProps> = ({
         <SongListItem
           key={song.id}
           song={song}
+          refetch={refetch}
           isUserSong={areUsersSongs}
           albumView={albumView}
         />

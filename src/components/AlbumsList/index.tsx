@@ -7,6 +7,7 @@ import { AlbumsListProps } from "./types";
 const AlbumsList: React.FC<AlbumsListProps> = ({
   albums,
   areUsersAlbums,
+  refetch,
   ...rest
 }) => {
   const classes = useStyles(rest);
@@ -18,6 +19,7 @@ const AlbumsList: React.FC<AlbumsListProps> = ({
           key={album.id}
           album={album}
           isUserAlbum={areUsersAlbums}
+          refetch={refetch}
         />
       ))}
     </Grid>

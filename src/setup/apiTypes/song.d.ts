@@ -3,3 +3,8 @@ export interface AddSongVariables {
   authorName: string;
   publicationYear: number;
 }
+
+export interface ChangeListenedStatusVariables {
+  songId: string;
+  status: boolean;
+}

@@ -4,10 +4,13 @@ import SongsService from "../../services/songs";
 import { GetSongsResponse } from "../../services/songs/types";
 
 export const useUserSongsList = () => {
-  const { data: songs } = useQuery<GetSongsResponse>(
+  const { data: songs, refetch } = useQuery<GetSongsResponse>(
     apiRoutes.USER_SONGS,
     SongsService.getUserSongs
   );
 
-  return songs ?? [];
+  return {
+    songs: songs ?? [],
+    refetch,
+  };
 };

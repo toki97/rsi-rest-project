@@ -23,3 +23,14 @@ export interface RateAlbumVariables {
   albumId: string;
   rating: number;
 }
+
+export interface Album {
+  title: string;
+  authorName: string;
+  publicationYear: number;
+  songIds: string[];
+}
+
+export interface AddAlbumVariables {
+  album: Album;
+}

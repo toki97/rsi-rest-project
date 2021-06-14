@@ -14,18 +14,22 @@ import SongsList from "../../SongsList";
 import {
   useAddToUserAlbums,
   useAlbumRating,
+  useRemoveAlbum,
   useRemoveFromUserAlbums,
 } from "./hooks";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const AlbumListItem: React.FC<AlbumListItemProps> = ({
   album: { id, title, authorName, publicationYear, rate, songs },
   isUserAlbum,
+  refetch,
   ...rest
 }) => {
   const classes = useStyles(rest);
   const addToUserAlbums = useAddToUserAlbums(id);
-  const removeFromUserAlbums = useRemoveFromUserAlbums(id);
-  const [userRating, handleRateAlbum] = useAlbumRating(id);
+  const removeFromUserAlbums = useRemoveFromUserAlbums(id, refetch);
+  const removeAlbum = useRemoveAlbum(id, refetch);
+  const [userRating, handleRateAlbum] = useAlbumRating(id, refetch);
 
   return (
     <>
@@ -86,11 +90,22 @@ const AlbumListItem: React.FC<AlbumListItemProps> = ({
                 <FavoriteIcon />
               </IconButton>
             )}
+
+            {!isUserAlbum && (
+              <IconButton onClick={removeAlbum}>
+                <DeleteIcon />
+              </IconButton>
+            )}
           </Box>
         </Box>
       </Box>
 
-      <SongsList songs={songs} albumView areUsersSongs />
+      <SongsList
+        songs={songs}
+        refetch={() => undefined}
+        albumView
+        areUsersSongs
+      />
     </>
   );
 };

@@ -8,7 +8,7 @@ import {
 } from "../../../services/albums/types";
 import apiRoutes from "../../../services/apiRoutes";
 
-export const useAlbumRating = (albumId: string) => {
+export const useAlbumRating = (albumId: string, refetch: () => void) => {
   const { mutate: rateAlbum } = useMutation<
     unknown,
     unknown,
@@ -27,10 +27,11 @@ export const useAlbumRating = (albumId: string) => {
         albumId,
         rating,
       });
+      refetch();
 
       setUserRating(rating);
     },
-    [rateAlbum, albumId]
+    [rateAlbum, albumId, refetch]
   );
 
   return [userRating, handleRateAlbum] as const;
@@ -52,7 +53,10 @@ export const useAddToUserAlbums = (albumId: string) => {
   }, [addToAlbumSongs, albumId]);
 };
 
-export const useRemoveFromUserAlbums = (albumId: string) => {
+export const useRemoveFromUserAlbums = (
+  albumId: string,
+  refetch: () => void
+) => {
   const { mutate: removeAlbum } = useMutation<
     unknown,
     unknown,
@@ -65,5 +69,23 @@ export const useRemoveFromUserAlbums = (albumId: string) => {
     removeAlbum({
       albumId,
     });
-  }, [removeAlbum, albumId]);
+    refetch();
+  }, [removeAlbum, albumId, refetch]);
+};
+
+export const useRemoveAlbum = (albumId: string, refetch: () => void) => {
+  const { mutate: removeAlbum } = useMutation<
+    unknown,
+    unknown,
+    RemoveFromUserAlbumsVariables
+  >(apiRoutes.REMOVE_ALBUM(albumId), (variables) =>
+    AlbumsService.removeAlbum(variables.albumId)
+  );
+
+  return useCallback(() => {
+    removeAlbum({
+      albumId,
+    });
+    refetch();
+  }, [removeAlbum, albumId, refetch]);
 };

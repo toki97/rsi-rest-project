@@ -4,11 +4,11 @@ import SongsList from "../../components/SongsList";
 import { useSongsList } from "./hooks";
 
 const SongsPage: React.FC = () => {
-  const songs = useSongsList();
+  const { songs, refetch } = useSongsList();
 
   return (
     <Container>
-      <SongsList songs={songs} />
+      <SongsList songs={songs} refetch={refetch} />
     </Container>
   );
 };

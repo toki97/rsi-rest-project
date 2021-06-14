@@ -13,6 +13,7 @@ import useStyles from "./styles";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useIsLoggedIn, useLogout } from "./hooks";
 import Button from "@material-ui/core/Button";
+import AddAlbumModal from "../components/AddAlbumModal";
 
 const AppLayout: React.FC = ({ children, ...rest }) => {
   const classes = useStyles(rest);
@@ -20,8 +21,12 @@ const AppLayout: React.FC = ({ children, ...rest }) => {
   const logout = useLogout();
   const isLoggedIn = useIsLoggedIn();
   const [addSongModalOpen, setAddSongModalOpen] = useState(false);
+  const [addAlbumModalOpen, setAddAlbumModalOpen] = useState(false);
   const { pathname } = useLocation();
   const isSongsPage = matchPath(routes.HOME, {
+    path: pathname,
+  });
+  const isAlbumsPage = matchPath(routes.ALBUMS, {
     path: pathname,
   });
 
@@ -29,8 +34,14 @@ const AppLayout: React.FC = ({ children, ...rest }) => {
     <Container>
       <AppBar position="static">
         <Toolbar className={classes.toolbar}>
-          {isSongsPage && (
-            <IconButton onClick={() => setAddSongModalOpen(true)}>
+          {(isSongsPage || isAlbumsPage) && (
+            <IconButton
+              onClick={() =>
+                isAlbumsPage
+                  ? setAddAlbumModalOpen(true)
+                  : setAddSongModalOpen(true)
+              }
+            >
               <AddIcon />
             </IconButton>
           )}
@@ -68,6 +79,11 @@ const AppLayout: React.FC = ({ children, ...rest }) => {
       <AddSongModal
         isOpen={addSongModalOpen}
         onClose={() => setAddSongModalOpen(false)}
+      />
+
+      <AddAlbumModal
+        isOpen={addAlbumModalOpen}
+        onClose={() => setAddAlbumModalOpen(false)}
       />
     </Container>
   );

@@ -4,10 +4,13 @@ import { GetAlbumsResponse } from "../../services/albums/types";
 import apiRoutes from "../../services/apiRoutes";
 
 export const useAlbumsList = () => {
-  const { data: albums } = useQuery<GetAlbumsResponse>(
+  const { data: albums, refetch } = useQuery<GetAlbumsResponse>(
     apiRoutes.ALBUMS,
     AlbumsService.getAlbums
   );
 
-  return albums ?? [];
+  return {
+    albums: albums ?? [],
+    refetch,
+  };
 };

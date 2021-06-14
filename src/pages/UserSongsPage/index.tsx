@@ -3,11 +3,11 @@ import SongsList from "../../components/SongsList";
 import { useUserSongsList } from "./hooks";
 
 const UserSongsPage = () => {
-  const songs = useUserSongsList();
+  const { songs, refetch } = useUserSongsList();
 
   return (
     <Container>
-      <SongsList songs={songs} areUsersSongs />
+      <SongsList songs={songs} refetch={refetch} areUsersSongs />
     </Container>
   );
 };

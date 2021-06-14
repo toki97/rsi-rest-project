@@ -8,10 +8,15 @@ import {
   RateSongVariables,
   RemoveSongVariables,
 } from "../../../services/songs/types";
+import { ChangeListenedStatusVariables } from "../../../setup/apiTypes/song";
 
-export const useSongListenedStatus = (listened: boolean) => {
-  const { mutate: changeListenedStatus } = useMutation(
-    SongsService.changeListenedStatus
+export const useSongListenedStatus = (songId: string, listened: boolean) => {
+  const { mutate: changeListenedStatus } = useMutation<
+    boolean,
+    unknown,
+    ChangeListenedStatusVariables
+  >((variables) =>
+    SongsService.changeListenedStatus(variables.songId, variables.status)
   );
   const [isListened, setIsListened] = useState(listened);
 
@@ -19,10 +24,13 @@ export const useSongListenedStatus = (listened: boolean) => {
     useCallback(
       (event) => {
         const { checked } = event.target;
-        changeListenedStatus();
+        changeListenedStatus({
+          songId,
+          status: checked,
+        });
         setIsListened(checked);
       },
-      [changeListenedStatus]
+      [changeListenedStatus, songId]
     );
 
   return [isListened, handleListenedChange] as const;
@@ -53,7 +61,7 @@ export const useSongRating = (songId: string) => {
   return [userRating, handleRateSong] as const;
 };
 
-export const useRemoveSong = (songId: string) => {
+export const useRemoveSong = (songId: string, refetch: () => void) => {
   const { mutate: removeSong } = useMutation<
     unknown,
     unknown,
@@ -66,7 +74,28 @@ export const useRemoveSong = (songId: string) => {
     removeSong({
       songId,
     });
-  }, [removeSong, songId]);
+    refetch();
+  }, [removeSong, songId, refetch]);
+};
+
+export const useRemoveFromUsersSongs = (
+  songId: string,
+  refetch: () => void
+) => {
+  const { mutate: removeSong } = useMutation<
+    unknown,
+    unknown,
+    RemoveSongVariables
+  >(apiRoutes.REMOVE_FROM_USER_SONGS(songId), (variables) =>
+    SongsService.removeFromUserSongs(variables.songId)
+  );
+
+  return useCallback(() => {
+    removeSong({
+      songId,
+    });
+    refetch();
+  }, [removeSong, songId, refetch]);
 };
 
 export const useAddToUserSongs = (songId: string) => {
