@@ -8,13 +8,17 @@ import {
 } from "../../../services/albums/types";
 import apiRoutes from "../../../services/apiRoutes";
 
-export const useAlbumRating = (albumId: string, refetch: () => void) => {
+export const useAlbumRating = (
+  albumId: string,
+  rate: number,
+  refetch: () => void
+) => {
   const { mutate: rateAlbum } = useMutation<
     unknown,
     unknown,
     RateAlbumVariables
   >(({ albumId, rating }) => AlbumsService.rateAlbum(albumId, rating));
-  const [userRating, setUserRating] = useState<number | string>("");
+  const [userRating, setUserRating] = useState<number | string>(rate);
 
   const handleRateAlbum: React.ChangeEventHandler<{
     value: unknown;
@@ -57,7 +61,7 @@ export const useRemoveFromUserAlbums = (
   albumId: string,
   refetch: () => void
 ) => {
-  const { mutate: removeAlbum } = useMutation<
+  const { mutateAsync: removeAlbum } = useMutation<
     unknown,
     unknown,
     RemoveFromUserAlbumsVariables
@@ -65,8 +69,8 @@ export const useRemoveFromUserAlbums = (
     AlbumsService.removeFromUsersAlbums(variables.albumId)
   );
 
-  return useCallback(() => {
-    removeAlbum({
+  return useCallback(async () => {
+    await removeAlbum({
       albumId,
     });
     refetch();
@@ -74,7 +78,7 @@ export const useRemoveFromUserAlbums = (
 };
 
 export const useRemoveAlbum = (albumId: string, refetch: () => void) => {
-  const { mutate: removeAlbum } = useMutation<
+  const { mutateAsync: removeAlbum } = useMutation<
     unknown,
     unknown,
     RemoveFromUserAlbumsVariables
@@ -82,8 +86,8 @@ export const useRemoveAlbum = (albumId: string, refetch: () => void) => {
     AlbumsService.removeAlbum(variables.albumId)
   );
 
-  return useCallback(() => {
-    removeAlbum({
+  return useCallback(async () => {
+    await removeAlbum({
       albumId,
     });
     refetch();

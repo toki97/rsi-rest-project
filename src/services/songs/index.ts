@@ -1,4 +1,7 @@
-import { AddSongVariables } from "../../setup/apiTypes/song";
+import {
+  AddSongVariables,
+  UpdateSongVariables,
+} from "../../setup/apiTypes/song";
 import apiClient from "../../setup/axios";
 import apiRoutes from "../apiRoutes";
 import { GetSongsResponse } from "./types";
@@ -37,6 +40,13 @@ const SongsService = {
   },
   addSong: async (song: AddSongVariables): Promise<unknown> => {
     const response = await apiClient.post(apiRoutes.ADD_SONG, {
+      ...song,
+    });
+
+    return response.data;
+  },
+  updateSong: async (song: UpdateSongVariables): Promise<unknown> => {
+    const response = await apiClient.put(apiRoutes.UPDATE_SONG, {
       ...song,
     });
 

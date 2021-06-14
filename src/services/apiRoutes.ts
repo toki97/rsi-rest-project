@@ -15,6 +15,8 @@ const apiRoutes = {
   REMOVE_ALBUM: (albumId: string) => `/discs/${albumId}`,
   RATE_ALBUM: "/discs/user/rate",
   ADD_ALBUM: "/discs",
+  UPDATE_SONG: "/songs",
+  UPDATE_ALBUM: "/discs",
 };
 
 export default apiRoutes;

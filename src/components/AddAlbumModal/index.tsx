@@ -13,7 +13,7 @@ import TextField from "@material-ui/core/TextField";
 import { Field, Form, Formik } from "formik";
 import React from "react";
 import { initialValues } from "./consts";
-import { useAddAlbum, useSongsListData } from "./hooks";
+import { useAddAlbum, useSongsListData, useUpdateAlbum } from "./hooks";
 import useStyles from "./styles";
 import { AddAlbumModalProps, AlbumFormData } from "./types";
 
@@ -30,18 +30,22 @@ const MenuProps = {
 
 const AddAlbumModal: React.FC<AddAlbumModalProps> = ({
   isOpen,
+  album,
+  isEditing,
   onClose,
+  refetch = () => undefined,
   ...rest
 }) => {
   const classes = useStyles(rest);
   const songsListData = useSongsListData();
   const handleAlbumAdd = useAddAlbum(onClose);
+  const handleAlbumUpdate = useUpdateAlbum(album?.id ?? "", onClose, refetch);
 
   return (
     <Dialog open={isOpen} onClose={onClose}>
       <Formik<AlbumFormData>
-        initialValues={initialValues}
-        onSubmit={handleAlbumAdd}
+        initialValues={album ?? initialValues}
+        onSubmit={isEditing ? handleAlbumUpdate : handleAlbumAdd}
       >
         <Form>
           <DialogTitle>Add an album</DialogTitle>
@@ -75,38 +79,40 @@ const AddAlbumModal: React.FC<AddAlbumModalProps> = ({
               fullWidth
             />
 
-            <FormControl className={classes.formControl}>
-              <InputLabel id="songs">Name</InputLabel>
-              <Field
-                as={Select}
-                labelId="songs"
-                name="songIds"
-                input={<Input />}
-                MenuProps={MenuProps}
-                renderValue={(selected: string[]) => (
-                  <div className={classes.chips}>
-                    {(selected as string[]).map((value) => (
-                      <Chip
-                        key={value}
-                        label={
-                          songsListData.find((item) => item.value === value)
-                            ?.name ?? ""
-                        }
-                        className={classes.chip}
-                      />
-                    ))}
-                  </div>
-                )}
-                fullWidth
-                multiple
-              >
-                {songsListData.map(({ name, value }) => (
-                  <MenuItem key={value} value={value}>
-                    {name}
-                  </MenuItem>
-                ))}
-              </Field>
-            </FormControl>
+            {!isEditing && (
+              <FormControl className={classes.formControl}>
+                <InputLabel id="songs">Name</InputLabel>
+                <Field
+                  as={Select}
+                  labelId="songs"
+                  name="songIds"
+                  input={<Input />}
+                  MenuProps={MenuProps}
+                  renderValue={(selected: string[]) => (
+                    <div className={classes.chips}>
+                      {(selected as string[]).map((value) => (
+                        <Chip
+                          key={value}
+                          label={
+                            songsListData.find((item) => item.value === value)
+                              ?.name ?? ""
+                          }
+                          className={classes.chip}
+                        />
+                      ))}
+                    </div>
+                  )}
+                  fullWidth
+                  multiple
+                >
+                  {songsListData.map(({ name, value }) => (
+                    <MenuItem key={value} value={value}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                </Field>
+              </FormControl>
+            )}
           </DialogContent>
 
           <DialogActions>

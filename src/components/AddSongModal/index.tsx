@@ -7,17 +7,24 @@ import TextField from "@material-ui/core/TextField";
 import { Field, Form, Formik } from "formik";
 import React from "react";
 import { initialValues } from "./consts";
-import { useAddSong } from "./hooks";
+import { useAddSong, useUpdateSong } from "./hooks";
 import { AddSongModalProps, SongFormData } from "./types";
 
-const AddSongModal: React.FC<AddSongModalProps> = ({ isOpen, onClose }) => {
+const AddSongModal: React.FC<AddSongModalProps> = ({
+  isOpen,
+  song,
+  isEditing,
+  refetch = () => undefined,
+  onClose,
+}) => {
   const handleSongAdd = useAddSong(onClose);
+  const handleSongUpdate = useUpdateSong(song?.id ?? "", onClose, refetch);
 
   return (
     <Dialog open={isOpen} onClose={onClose}>
       <Formik<SongFormData>
-        initialValues={initialValues}
-        onSubmit={handleSongAdd}
+        initialValues={song ?? initialValues}
+        onSubmit={isEditing ? handleSongUpdate : handleSongAdd}
       >
         <Form>
           <DialogTitle>Add a song</DialogTitle>
@@ -58,7 +65,7 @@ const AddSongModal: React.FC<AddSongModalProps> = ({ isOpen, onClose }) => {
             </Button>
 
             <Button type="submit" color="primary">
-              Add
+              {isEditing ? "Save" : "Add"}
             </Button>
           </DialogActions>
         </Form>

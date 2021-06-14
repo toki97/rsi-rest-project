@@ -22,6 +22,8 @@ import EditIcon from "@material-ui/icons/Edit";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import DeleteIcon from "@material-ui/icons/Delete";
+import AddSongModal from "../../AddSongModal";
+import { useState } from "react";
 
 const SongListItem: React.FC<SongListItemProps> = ({
   song: {
@@ -42,10 +44,11 @@ const SongListItem: React.FC<SongListItemProps> = ({
     id,
     songListened
   );
-  const [userRating, handleRateSong] = useSongRating(id);
+  const [userRating, handleRateSong] = useSongRating(id, rate);
   const removeSong = useRemoveSong(id, refetch);
   const removeFromUserSongs = useRemoveFromUsersSongs(id, refetch);
   const addToUserSongs = useAddToUserSongs(id);
+  const [openModal, setOpenModal] = useState(false);
 
   return (
     <Box className={classes.item} component="li">
@@ -66,7 +69,7 @@ const SongListItem: React.FC<SongListItemProps> = ({
       </Box>
 
       <Box className={classes.actions}>
-        {!isUserSong && (
+        {isUserSong && !albumView && (
           <Box className={classes.ratingWrapper}>
             <FormControl>
               <InputLabel id="rating-select">Rate</InputLabel>
@@ -87,7 +90,7 @@ const SongListItem: React.FC<SongListItemProps> = ({
           </Box>
         )}
 
-        {isUserSong && (
+        {isUserSong && !albumView && (
           <FormControlLabel
             control={
               <Checkbox
@@ -109,12 +112,12 @@ const SongListItem: React.FC<SongListItemProps> = ({
           )}
 
           {!isUserSong && (
-            <IconButton>
+            <IconButton onClick={() => setOpenModal(true)}>
               <EditIcon />
             </IconButton>
           )}
 
-          {isUserSong && (
+          {isUserSong && !albumView && (
             <IconButton onClick={removeFromUserSongs}>
               <FavoriteIcon />
             </IconButton>
@@ -127,6 +130,19 @@ const SongListItem: React.FC<SongListItemProps> = ({
           )}
         </Box>
       </Box>
+
+      <AddSongModal
+        isOpen={openModal}
+        onClose={() => setOpenModal(false)}
+        song={{
+          id,
+          title,
+          publicationYear,
+          authorName,
+        }}
+        refetch={refetch}
+        isEditing
+      />
     </Box>
   );
 };

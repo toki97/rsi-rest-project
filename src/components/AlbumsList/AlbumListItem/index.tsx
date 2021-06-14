@@ -18,6 +18,8 @@ import {
   useRemoveFromUserAlbums,
 } from "./hooks";
 import DeleteIcon from "@material-ui/icons/Delete";
+import AddAlbumModal from "../../AddAlbumModal";
+import { useState } from "react";
 
 const AlbumListItem: React.FC<AlbumListItemProps> = ({
   album: { id, title, authorName, publicationYear, rate, songs },
@@ -29,7 +31,8 @@ const AlbumListItem: React.FC<AlbumListItemProps> = ({
   const addToUserAlbums = useAddToUserAlbums(id);
   const removeFromUserAlbums = useRemoveFromUserAlbums(id, refetch);
   const removeAlbum = useRemoveAlbum(id, refetch);
-  const [userRating, handleRateAlbum] = useAlbumRating(id, refetch);
+  const [userRating, handleRateAlbum] = useAlbumRating(id, rate, refetch);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <>
@@ -51,7 +54,7 @@ const AlbumListItem: React.FC<AlbumListItemProps> = ({
         </Box>
 
         <Box className={classes.actions}>
-          {!isUserAlbum && (
+          {isUserAlbum && (
             <Box className={classes.ratingWrapper}>
               <FormControl>
                 <InputLabel id="rating-select">Rate</InputLabel>
@@ -80,7 +83,7 @@ const AlbumListItem: React.FC<AlbumListItemProps> = ({
             )}
 
             {!isUserAlbum && (
-              <IconButton>
+              <IconButton onClick={() => setIsModalOpen(true)}>
                 <EditIcon />
               </IconButton>
             )}
@@ -105,6 +108,20 @@ const AlbumListItem: React.FC<AlbumListItemProps> = ({
         refetch={() => undefined}
         albumView
         areUsersSongs
+      />
+
+      <AddAlbumModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        album={{
+          id,
+          authorName,
+          publicationYear,
+          title,
+          songIds: songs.map((song) => song.id),
+        }}
+        refetch={refetch}
+        isEditing
       />
     </>
   );

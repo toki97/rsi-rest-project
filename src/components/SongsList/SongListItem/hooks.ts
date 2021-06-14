@@ -4,7 +4,6 @@ import apiRoutes from "../../../services/apiRoutes";
 import SongsService from "../../../services/songs";
 import {
   AddUserSongVariables,
-  GetSongsResponseSingleItem,
   RateSongVariables,
   RemoveSongVariables,
 } from "../../../services/songs/types";
@@ -33,11 +32,11 @@ export const useSongListenedStatus = (songId: string, listened: boolean) => {
   return [isListened, handleListenedChange] as const;
 };
 
-export const useSongRating = (songId: string) => {
+export const useSongRating = (songId: string, rate: number) => {
   const { mutate: rateSong } = useMutation<unknown, unknown, RateSongVariables>(
     ({ songId, rating }) => SongsService.rateSong(songId, rating)
   );
-  const [userRating, setUserRating] = useState<number | string>("");
+  const [userRating, setUserRating] = useState<number | string>(rate);
 
   const handleRateSong: React.ChangeEventHandler<{
     value: unknown;
@@ -59,7 +58,7 @@ export const useSongRating = (songId: string) => {
 };
 
 export const useRemoveSong = (songId: string, refetch: () => void) => {
-  const { mutate: removeSong } = useMutation<
+  const { mutateAsync: removeSong } = useMutation<
     unknown,
     unknown,
     RemoveSongVariables
@@ -67,10 +66,11 @@ export const useRemoveSong = (songId: string, refetch: () => void) => {
     SongsService.removeSong(variables.songId)
   );
 
-  return useCallback(() => {
-    removeSong({
+  return useCallback(async () => {
+    await removeSong({
       songId,
     });
+
     refetch();
   }, [removeSong, songId, refetch]);
 };
@@ -79,7 +79,7 @@ export const useRemoveFromUsersSongs = (
   songId: string,
   refetch: () => void
 ) => {
-  const { mutate: removeSong } = useMutation<
+  const { mutateAsync: removeSong } = useMutation<
     unknown,
     unknown,
     RemoveSongVariables
@@ -87,8 +87,8 @@ export const useRemoveFromUsersSongs = (
     SongsService.removeFromUserSongs(variables.songId)
   );
 
-  return useCallback(() => {
-    removeSong({
+  return useCallback(async () => {
+    await removeSong({
       songId,
     });
     refetch();
@@ -110,5 +110,3 @@ export const useAddToUserSongs = (songId: string) => {
     });
   }, [addToUserSongs, songId]);
 };
-
-export const useUpdateSong = (song: GetSongsResponseSingleItem) => {};

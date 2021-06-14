@@ -1,3 +1,4 @@
+import { UpdateAlbumVariables } from "../../setup/apiTypes/album";
 import apiClient from "../../setup/axios";
 import apiRoutes from "../apiRoutes";
 import { Album, GetAlbumsResponse } from "./types";
@@ -42,6 +43,13 @@ const AlbumsService = {
   },
   addAlbum: async (album: Album): Promise<unknown> => {
     const response = await apiClient.post(apiRoutes.ADD_ALBUM, {
+      ...album,
+    });
+
+    return response.data;
+  },
+  updateAlbum: async (album: UpdateAlbumVariables): Promise<unknown> => {
+    const response = await apiClient.put(apiRoutes.UPDATE_ALBUM, {
       ...album,
     });
 

@@ -34,47 +34,49 @@ const AppLayout: React.FC = ({ children, ...rest }) => {
 
   return (
     <Container>
-      <AppBar position="static">
-        <Toolbar className={classes.toolbar}>
-          {(isSongsPage || isAlbumsPage) && (
-            <IconButton
-              onClick={() =>
-                isAlbumsPage
-                  ? setAddAlbumModalOpen(true)
-                  : setAddSongModalOpen(true)
-              }
-            >
-              <AddIcon />
-            </IconButton>
-          )}
+      {isLoggedIn && (
+        <AppBar position="static">
+          <Toolbar className={classes.toolbar}>
+            {(isSongsPage || isAlbumsPage) && (
+              <IconButton
+                onClick={() =>
+                  isAlbumsPage
+                    ? setAddAlbumModalOpen(true)
+                    : setAddSongModalOpen(true)
+                }
+              >
+                <AddIcon />
+              </IconButton>
+            )}
 
-          <Box className={classes.linksWrapper}>
-            <Link color="secondary" href={routes.HOME}>
-              Songs
-            </Link>
+            <Box className={classes.linksWrapper}>
+              <Link color="secondary" href={routes.HOME}>
+                Songs
+              </Link>
 
-            <Link color="secondary" href={routes.ALBUMS}>
-              Albums
-            </Link>
+              <Link color="secondary" href={routes.ALBUMS}>
+                Albums
+              </Link>
 
-            <Link color="secondary" href={routes.USER_SONGS}>
-              User songs
-            </Link>
+              <Link color="secondary" href={routes.USER_SONGS}>
+                User songs
+              </Link>
 
-            <Link color="secondary" href={routes.USER_ALBUMS}>
-              User albums
-            </Link>
-          </Box>
+              <Link color="secondary" href={routes.USER_ALBUMS}>
+                User albums
+              </Link>
+            </Box>
 
-          {isLoggedIn ? (
-            <IconButton onClick={logout}>
-              <ExitToAppIcon />
-            </IconButton>
-          ) : (
-            <Button onClick={() => history.push(routes.LOGIN)}>Login</Button>
-          )}
-        </Toolbar>
-      </AppBar>
+            {isLoggedIn ? (
+              <IconButton onClick={logout}>
+                <ExitToAppIcon />
+              </IconButton>
+            ) : (
+              <Button onClick={() => history.push(routes.LOGIN)}>Login</Button>
+            )}
+          </Toolbar>
+        </AppBar>
+      )}
 
       {children}
 
