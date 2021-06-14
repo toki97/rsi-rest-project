@@ -24,6 +24,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 const SongListItem: React.FC<SongListItemProps> = ({
   song: { id, title, authorName, rate, publicationYear },
   isUserSong = false,
+  albumView = false,
   ...rest
 }) => {
   const classes = useStyles(rest);

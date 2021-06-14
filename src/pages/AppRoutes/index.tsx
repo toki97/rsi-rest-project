@@ -5,9 +5,10 @@ import routes from "../../setup/routes";
 import AlbumsPage from "../AlbumsPage";
 import LoginPage from "../LoginPage";
 import SongsPage from "../SongsPage";
+import UserAlbumsPage from "../UserAlbumsPage";
 import UserSongsPage from "../UserSongsPage";
 
-const { LOGIN, HOME, ALBUMS, USER_SONGS } = routes;
+const { LOGIN, HOME, ALBUMS, USER_SONGS, USER_ALBUMS } = routes;
 
 const AppRoutes = () => {
   return (
@@ -28,6 +29,10 @@ const AppRoutes = () => {
 
           <ProtectedRoute exact path={ALBUMS}>
             <AlbumsPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute exact path={USER_ALBUMS}>
+            <UserAlbumsPage />
           </ProtectedRoute>
         </Switch>
       </AppLayout>

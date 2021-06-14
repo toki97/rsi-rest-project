@@ -30,7 +30,7 @@ export const useSongListenedStatus = (listened: boolean) => {
 
 export const useSongRating = (songId: string) => {
   const { mutate: rateSong } = useMutation<unknown, unknown, RateSongVariables>(
-    SongsService.changeListenedStatus
+    ({ songId, rating }) => SongsService.rateSong(songId, rating)
   );
   const [userRating, setUserRating] = useState<number | string>("");
 

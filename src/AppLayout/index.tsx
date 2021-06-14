@@ -6,13 +6,19 @@ import IconButton from "@material-ui/core/IconButton";
 import Toolbar from "@material-ui/core/Toolbar";
 import AddIcon from "@material-ui/icons/Add";
 import { useState } from "react";
-import { matchPath, useLocation } from "react-router-dom";
+import { matchPath, useHistory, useLocation } from "react-router-dom";
 import AddSongModal from "../components/AddSongModal";
 import routes from "../setup/routes";
 import useStyles from "./styles";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { useIsLoggedIn, useLogout } from "./hooks";
+import Button from "@material-ui/core/Button";
 
 const AppLayout: React.FC = ({ children, ...rest }) => {
   const classes = useStyles(rest);
+  const history = useHistory();
+  const logout = useLogout();
+  const isLoggedIn = useIsLoggedIn();
   const [addSongModalOpen, setAddSongModalOpen] = useState(false);
   const { pathname } = useLocation();
   const isSongsPage = matchPath(routes.HOME, {
@@ -22,7 +28,7 @@ const AppLayout: React.FC = ({ children, ...rest }) => {
   return (
     <Container>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar className={classes.toolbar}>
           {isSongsPage && (
             <IconButton onClick={() => setAddSongModalOpen(true)}>
               <AddIcon />
@@ -46,6 +52,14 @@ const AppLayout: React.FC = ({ children, ...rest }) => {
               User albums
             </Link>
           </Box>
+
+          {isLoggedIn ? (
+            <IconButton onClick={logout}>
+              <ExitToAppIcon />
+            </IconButton>
+          ) : (
+            <Button onClick={() => history.push(routes.LOGIN)}>Login</Button>
+          )}
         </Toolbar>
       </AppBar>
 

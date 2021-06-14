@@ -7,6 +7,10 @@ const useStyles = makeStyles(() =>
         marginLeft: "2rem",
       },
     },
+    toolbar: {
+      display: "flex",
+      justifyContent: "space-between",
+    },
   })
 );
 

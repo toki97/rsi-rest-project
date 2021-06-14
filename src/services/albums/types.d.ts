@@ -10,3 +10,16 @@ export interface GetAlbumsResponseSingleItem {
 }
 
 export type GetAlbumsResponse = GetAlbumsResponseSingleItem[];
+
+export interface AddUserAlbumVariables {
+  albumId: string;
+}
+
+export interface RemoveFromUserAlbumsVariables {
+  albumId: string;
+}
+
+export interface RateAlbumVariables {
+  albumId: string;
+  rating: number;
+}
