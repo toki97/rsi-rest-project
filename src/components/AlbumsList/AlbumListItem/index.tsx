@@ -20,6 +20,7 @@ import {
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddAlbumModal from "../../AddAlbumModal";
 import { useState } from "react";
+import { Paper } from "@material-ui/core";
 
 const AlbumListItem: React.FC<AlbumListItemProps> = ({
   album: { id, title, authorName, publicationYear, rate, songs },
@@ -36,7 +37,7 @@ const AlbumListItem: React.FC<AlbumListItemProps> = ({
 
   return (
     <>
-      <Box className={classes.item} component="li">
+      <Paper elevation={3} className={classes.item} component="li">
         <Box className={classes.info}>
           <Typography className={classes.title} variant="h5">
             {title}
@@ -101,7 +102,7 @@ const AlbumListItem: React.FC<AlbumListItemProps> = ({
             )}
           </Box>
         </Box>
-      </Box>
+      </Paper>
 
       <SongsList
         songs={songs}

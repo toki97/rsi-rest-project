@@ -24,6 +24,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddSongModal from "../../AddSongModal";
 import { useState } from "react";
+import { Paper } from "@material-ui/core";
 
 const SongListItem: React.FC<SongListItemProps> = ({
   song: {
@@ -51,7 +52,7 @@ const SongListItem: React.FC<SongListItemProps> = ({
   const [openModal, setOpenModal] = useState(false);
 
   return (
-    <Box className={classes.item} component="li">
+    <Paper elevation={3} className={classes.item} component="li">
       <Box className={classes.info}>
         <Typography className={classes.title} variant="h5">
           {title}
@@ -143,7 +144,7 @@ const SongListItem: React.FC<SongListItemProps> = ({
         refetch={refetch}
         isEditing
       />
-    </Box>
+    </Paper>
   );
 };
 

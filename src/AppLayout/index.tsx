@@ -60,19 +60,19 @@ const AppLayout: React.FC = ({ children, ...rest }) => {
             )}
 
             <Box className={classes.linksWrapper}>
-              <Link color="secondary" href={routes.HOME}>
+              <Link color="secondary" variant="h6" href={routes.HOME}>
                 Songs
               </Link>
 
-              <Link color="secondary" href={routes.ALBUMS}>
+              <Link color="secondary" variant="h6" href={routes.ALBUMS}>
                 Albums
               </Link>
 
-              <Link color="secondary" href={routes.USER_SONGS}>
+              <Link color="secondary" variant="h6" href={routes.USER_SONGS}>
                 User songs
               </Link>
 
-              <Link color="secondary" href={routes.USER_ALBUMS}>
+              <Link color="secondary" variant="h6" href={routes.USER_ALBUMS}>
                 User albums
               </Link>
             </Box>

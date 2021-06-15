@@ -6,7 +6,6 @@ const useStyles = makeStyles({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    border: "1px solid black",
     padding: "1rem 1.5rem",
   },
   title: {
