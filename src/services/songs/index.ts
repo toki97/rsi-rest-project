@@ -12,6 +12,20 @@ const SongsService = {
 
     return response.data;
   },
+  getSongsSortedByRating: async (): Promise<GetSongsResponse> => {
+    const response = await apiClient.get(apiRoutes.SONGS_SORTED_BY_RATING);
+
+    return response.data;
+  },
+  searchSongs: async (title: string): Promise<GetSongsResponse> => {
+    const response = await apiClient.get(apiRoutes.SONGS_SEARCH, {
+      headers: {
+        title,
+      },
+    });
+
+    return response.data;
+  },
   getUserSongs: async (): Promise<GetSongsResponse> => {
     const response = await apiClient.get(apiRoutes.USER_SONGS);
 

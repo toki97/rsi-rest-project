@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { QueryParamProvider } from "use-query-params";
 import AppLayout from "../../AppLayout";
 import ProtectedRoute from "../../components/ProtectedRoute";
 import routes from "../../setup/routes";
@@ -13,29 +14,31 @@ const { LOGIN, HOME, ALBUMS, USER_SONGS, USER_ALBUMS } = routes;
 const AppRoutes = () => {
   return (
     <Router>
-      <AppLayout>
-        <Switch>
-          <Route exact path={LOGIN}>
-            <LoginPage />
-          </Route>
+      <QueryParamProvider ReactRouterRoute={Route}>
+        <AppLayout>
+          <Switch>
+            <Route exact path={LOGIN}>
+              <LoginPage />
+            </Route>
 
-          <ProtectedRoute exact path={HOME}>
-            <SongsPage />
-          </ProtectedRoute>
+            <ProtectedRoute exact path={HOME}>
+              <SongsPage />
+            </ProtectedRoute>
 
-          <ProtectedRoute exact path={USER_SONGS}>
-            <UserSongsPage />
-          </ProtectedRoute>
+            <ProtectedRoute exact path={USER_SONGS}>
+              <UserSongsPage />
+            </ProtectedRoute>
 
-          <ProtectedRoute exact path={ALBUMS}>
-            <AlbumsPage />
-          </ProtectedRoute>
+            <ProtectedRoute exact path={ALBUMS}>
+              <AlbumsPage />
+            </ProtectedRoute>
 
-          <ProtectedRoute exact path={USER_ALBUMS}>
-            <UserAlbumsPage />
-          </ProtectedRoute>
-        </Switch>
-      </AppLayout>
+            <ProtectedRoute exact path={USER_ALBUMS}>
+              <UserAlbumsPage />
+            </ProtectedRoute>
+          </Switch>
+        </AppLayout>
+      </QueryParamProvider>
     </Router>
   );
 };

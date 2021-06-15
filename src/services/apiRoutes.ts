@@ -17,6 +17,8 @@ const apiRoutes = {
   ADD_ALBUM: "/discs",
   UPDATE_SONG: "/songs",
   UPDATE_ALBUM: "/discs",
+  SONGS_SEARCH: "/songs/search",
+  SONGS_SORTED_BY_RATING: "/songs/sorted",
 };
 
 export default apiRoutes;

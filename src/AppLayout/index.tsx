@@ -1,4 +1,4 @@
-import { Link } from "@material-ui/core";
+import { Link, TextField } from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
@@ -11,9 +11,16 @@ import AddSongModal from "../components/AddSongModal";
 import routes from "../setup/routes";
 import useStyles from "./styles";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import { useIsLoggedIn, useLogout } from "./hooks";
+import {
+  useIsLoggedIn,
+  useLogout,
+  useSearchQuery,
+  useSortByRatingQuery,
+} from "./hooks";
 import Button from "@material-ui/core/Button";
 import AddAlbumModal from "../components/AddAlbumModal";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 
 const AppLayout: React.FC = ({ children, ...rest }) => {
   const classes = useStyles(rest);
@@ -31,6 +38,9 @@ const AppLayout: React.FC = ({ children, ...rest }) => {
     path: pathname,
     exact: true,
   });
+
+  const { search, handleSearchChange } = useSearchQuery();
+  const [sortByRating, handleSortByRatingChange] = useSortByRatingQuery();
 
   return (
     <Container>
@@ -66,6 +76,27 @@ const AppLayout: React.FC = ({ children, ...rest }) => {
                 User albums
               </Link>
             </Box>
+
+            {isSongsPage && (
+              <TextField
+                placeholder="Search..."
+                value={search ?? ""}
+                onChange={handleSearchChange}
+              />
+            )}
+
+            {isSongsPage && (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={sortByRating}
+                    onChange={handleSortByRatingChange}
+                    color="secondary"
+                  />
+                }
+                label="Sort by rating"
+              />
+            )}
 
             {isLoggedIn ? (
               <IconButton onClick={logout}>
